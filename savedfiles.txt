@@ -3,3 +3,43 @@ create table student(id int primary key not null, studentName varchar(100) not n
 create table studentMarks(studentid int primary key not null, english float not null, hindi float not null, maths float not null, science float not null, social float not null, percentage float not null);
 
 create table studentPersonalDetails(studentID int primary key not null, fathername varchar(100) not null, mothername varchar(100) not null, address varchar(50), dob date not null);
+
+ /* String query = "select * from student where id = ?";
+        String query1 = "select * from studentPersonalDetails where studentId = ?";
+        String query2 = "select * from studentMarks where studentId  = ?";
+
+
+
+        PreparedStatement pStatement = connection.prepareStatement(query);
+        pStatement.setInt(1,student.getStudentId());
+        ResultSet rs = pStatement.executeQuery();
+        logger.info("The Data You want to Delete :=");
+        while(rs.next()){
+            student.setStudentName(rs.getString(2));
+            student.setStudentLastName(rs.getString(3));
+            logger.info("NAME:= " + student.getStudentName() + " " + student.getStudentLastName());
+
+        }
+        PreparedStatement pStatement1 = connection.prepareStatement(query1);
+        pStatement1.setInt(1,student.getStudentId());
+        ResultSet rs1 = pStatement1.executeQuery();
+        while(rs1.next()){
+            student.setFatherName(rs1.getString(2));
+            student.setMotherName(rs1.getString(3));
+            student.setAddress(rs1.getString(4));
+            student.setDob(rs1.getString(5));
+            logger.info("Father's Name := " + student.getFatherName() + ", Mother's Name := " + student.getMotherName() + ", Address := " + student.getAddress() + ", Date of Birth := " + student.getDob());
+
+        }
+        PreparedStatement pStatement2 = connection.prepareStatement(query2);
+        pStatement2.setInt(1,student.getStudentId());
+        ResultSet rs2 = pStatement2.executeQuery();
+        while(rs2.next()){
+            student.setEnglish(rs2.getFloat(2));
+            student.setHindi(rs2.getFloat(3));
+            student.setMaths(rs2.getFloat(4));
+            student.setScience(rs2.getFloat(5));
+            student.setSocial(rs2.getFloat(6));
+            student.setPercentage(rs2.getFloat(7));
+            logger.info("English Marks:= " + student.getEnglish() + ", Hindi Marks:= " + student.getHindi() + ", Maths Marks:= " + student.getMaths() + ", Science Marks:= " + student.getScience() + ", Social Marks:= " + student.getSocial() + ", Percentage Marks:= " + student.getPercentage() );
+        }*/
