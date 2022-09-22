@@ -1,0 +1,32 @@
+{
+  "students": [
+    {
+      "id": 4,
+      "studentName": "jiya",
+      "lastName": "manek",
+      "fatherName": "johan",
+      "motherName": "jenny",
+      "address": "banglore",
+      "dob": "1999-10-19",
+      "english": 100,
+      "hindi": 100,
+      "maths": 100,
+      "science": 100,
+      "social": 100
+    },
+    {
+      "id": 5,
+      "studentName": "jiya",
+      "lastName": "manek",
+      "fatherName": "johan",
+      "motherName": "jenny",
+      "address": "banglore",
+      "dob": "1999-10-19",
+      "english": 100,
+      "hindi": 100,
+      "maths": 100,
+      "science": 100,
+      "social": 100
+    }
+  ]
+}

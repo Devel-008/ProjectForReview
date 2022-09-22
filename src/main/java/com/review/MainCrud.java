@@ -41,16 +41,18 @@ public class MainCrud {
         DeleteStudentRecords delete = new DeleteStudentRecords();
         FetchStudentRecords fetch = new FetchStudentRecords();
         UpdateInStudentRecords update = new UpdateInStudentRecords();
+        JsonInsert json = new JsonInsert();
 
         int choice;
         while (true) {
-            logger.info("1] Press 1 to INSERT 2] Press 2 to DELETE 3]Press 3 to READ \n4]Press 4 to UPDATE 5]Press 4 to insert data from any JSON-File you want in database \n6]Press 5 to insert data in JSON File you want \n7]Press any other key to exit");
+            logger.info("1] Press 1 to INSERT 2] Press 2 to DELETE 3]Press 3 to READ \n4]Press 4 to UPDATE 5]Press 5 to insert data from any JSON-File in database \n6]Press any other key to exit");
             choice = sc.nextInt();
             switch (choice) {
                 case 1 -> insert.insert(connection, sc, student, logger);
                 case 2 -> delete.delete(connection, student, logger, sc);
                 case 3 -> fetch.select(connection, logger, student, sc);
                 case 4 -> update.updateRecords(connection, logger, student, sc);
+                case 5 -> json.readData(sc,connection,logger,student);
                 default -> {
                     logger.info("\nDo you want to continue:= Press any key or else Press 0 to exit!!");
                     int n = sc.nextInt();

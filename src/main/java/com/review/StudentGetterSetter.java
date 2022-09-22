@@ -118,7 +118,6 @@ public class StudentGetterSetter {
         this.percentage = percentage;
     }
 
-
     public StudentGetterSetter(int studentId, String studentName, String studentLastName, String fatherName, String motherName, String address, String dob, float english, float hindi, float maths, float science, float social, float percentage) {
         this.studentId = studentId;
         this.studentName = studentName;
@@ -139,3 +138,4 @@ public class StudentGetterSetter {
         super();
     }
 }
+

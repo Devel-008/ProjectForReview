@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title":"Student",
+  "description": "Details about student and his personal details and marks details",
+  "type": "array",
+  "students": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "description": "The unique identifier for a product",
+        "type": "integer",
+        "Required" : "Yes"
+      },
+      "studentName": {
+        "description": "Name of the Student",
+        "type": "string",
+        "Required" : "Yes"
+      },
+      "lastName": {
+        "description": "Name of the Student",
+        "type": "string",
+        "Required" : "Yes"
+      },
+      "fatherName": {
+        "description": "Name of the Student",
+        "type": "string",
+        "Required" : "Yes"
+      },
+      "motherName": {
+        "description": "Name of the Student",
+        "type": "string",
+        "Required" : "Yes"
+      },
+      "address": {
+        "description": "Name of the Student",
+        "type": "string",
+        "Required" : "Yes"
+      },
+      "dob": {
+        "type":"string",
+        "format": "date",
+        "pattern": "^[1-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$",
+        "Required" : "Yes"
+      },
+      "english": {
+        "description": "Name of the Student",
+        "type": "number",
+        "Required" : "Yes"
+      },
+      "hindi": {
+        "description": "Name of the Student",
+        "type": "number",
+        "Required" : "Yes"
+      },
+      "maths": {
+        "description": "Name of the Student",
+        "type": "number",
+        "Required" : "Yes"
+      },
+      "science": {
+        "description": "Name of the Student",
+        "type": "number",
+        "Required" : "Yes"
+      },
+      "social": {
+        "description": "Name of the Student",
+        "type": "number",
+        "Required" : "Yes"
+      }
+    }
+  }
+}

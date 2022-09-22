@@ -18,7 +18,7 @@ public class FetchStudentRecords {
         int check = sc.nextInt();
 
         if(check == 1){
-            selectAll(connection,logger,student);
+            selectAll(connection,logger);
         }
         else if (check == 2){
             selectRandom(connection,logger,student,sc);
@@ -27,8 +27,10 @@ public class FetchStudentRecords {
         }
     }
     private void selectRandom(Connection connection, Logger logger, StudentGetterSetter student, Scanner sc){
+
         logger.info("Enter ID of person you want to select :=");
         student.setStudentId(sc.nextInt());
+
         String query = " select student.studentName, student.lastName, " +
                 " studentPersonalDetails.fatherName, studentPersonalDetails.motherName, studentPersonalDetails.address, studentPersonalDetails.dob, " +
                 " studentMarks.english, studentMarks.hindi, studentMarks.maths, studentMarks.science, studentMarks.social, studentMarks.percentage " +
@@ -50,7 +52,7 @@ public class FetchStudentRecords {
             logger.error(String.valueOf(e));
         }
     }
-    private void selectAll(Connection connection, Logger logger, StudentGetterSetter student){
+    private void selectAll(Connection connection, Logger logger){
 
         Statement stmt;
         try{

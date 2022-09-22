@@ -10,7 +10,6 @@ public class UpdateInStudentRecords {
     PreparedStatement pStatement;
     ResultSet rs;
     Statement stmt;
-    ResultSetMetaData rsm = null;
     int row;
 
     public void updateRecords(Connection connection, Logger logger, StudentGetterSetter student, Scanner sc){
@@ -28,25 +27,41 @@ public class UpdateInStudentRecords {
     }
 
     private void updateStudentName(Connection connection, Logger logger, StudentGetterSetter student, Scanner sc) {
-
-
         String select = " select id from student";
+        String choice;
+        String name = "";
         try {
             pStatement = connection.prepareStatement(select);
             rs = pStatement.executeQuery();
 
             while(rs.next()) {
                 if (student.getStudentId() == rs.getInt("id")) {
-                    String update = "update student set studentName = ?, lastName = ? where id = ?";
-                    logger.info("Update Name:-");
-                    student.setStudentName(sc.next());
-                    logger.info("Update LastName :=");
-                    student.setStudentLastName(sc.next());
+                    logger.info("Press 2 to update FatherName || Press 3 to update MotherName || Press 4 to update Address || Press 5 to update DOB ");
+                    int i = sc.nextInt();
+                    String query = "";
+                    if(i==2){
+                        choice = "Name";
+                        query = "update student set studentName = ? where id = ?";
+                        logger.info("Update " + choice + ":=");
+                        name = sc.next();
+                        if (!name.matches("[A-Za-z]*")) {
+                            logger.warn("Incorrect format");
+                        }
+                    }else if(i==3){
+                        choice = "LastName";
+                        query = "update student set lastName = ? where id = ?";
+                        logger.info("Update " + choice + ":=");
+                        name = sc.next();
+                        if (!name.matches("[A-Za-z]*")) {
+                            logger.warn("Incorrect format");
+                        }
+                    }else {
+                        logger.warn("Incorrect Choice");
+                    }
                     try {
-                        pStatement = connection.prepareStatement(update);
-                        pStatement.setString(1, student.getStudentName());
-                        pStatement.setString(2, student.getStudentLastName());
-                        pStatement.setInt(3, student.getStudentId());
+                        pStatement = connection.prepareStatement(query);
+                        pStatement.setString(1, name);
+                        pStatement.setInt(2, student.getStudentId());
                         row = pStatement.executeUpdate();
                         if (row > 0) {
                             logger.info("Record Updated");
@@ -56,8 +71,6 @@ public class UpdateInStudentRecords {
                     } catch (Exception e) {
                         logger.error(String.valueOf(e));
                     }
-                } else {
-                    logger.warn("No such data with this ID!!");
                 }
             }
         }catch (Exception e){
@@ -65,41 +78,64 @@ public class UpdateInStudentRecords {
         }
         }
         private void updateStudentDetails(Connection connection, Logger logger, StudentGetterSetter student, Scanner sc) {
+
+            String select = "select * from studentPersonalDetails";
+            String name = " ";
+            String choice;
             try {
-                String select = "select * from studentPersonalDetails";
-                Statement stmt = connection.createStatement();
+                stmt = connection.createStatement();
                 rs = stmt.executeQuery(select);
-                rs.next();
-                rsm = rs.getMetaData();
+                while(rs.next()) {
+                    if (student.getStudentId() == rs.getInt("studentId"))
+                    {
+                        logger.info("Press 2 to update FatherName || Press 3 to update MotherName || Press 4 to update Address || Press 5 to update DOB ");
+                        int i = sc.nextInt();
+                        String query = "";
+                        if (i == 2) {
+                            query = "update studentPersonalDetails set fatherName = ? where studentId = ?";
+                            choice = "Father-Name";
+                            logger.info("Update " + choice + ":=");
+                            name = sc.next();
+                            if (!name.matches("[A-Za-z]*")) {
+                                logger.warn("Incorrect format");
+                            }
+                        } else if (i == 3) {
+                            query = "update studentPersonalDetails set motherName = ? where studentId = ?";
+                            choice = "Mother-Name";
+                            logger.info("Update " + choice + ":=");
+                            name = sc.next();
+                            if (!name.matches("[A-Za-z]*")) {
+                                logger.warn("Incorrect format");
+                            }
+                        } else if (i == 4) {
+                            query = "update studentPersonalDetails set address = ? where studentId = ?";
+                            choice = "Address";
+                            logger.info("Update " + choice + ":=");
+                            name = sc.next();
+                            if (!name.matches("[A-Za-z][A-Za-z0-9]*")) {
+                                logger.warn("Incorrect format");
+                            }
+                        } else if (i == 5) {
+                            query = "update studentPersonalDetails set dob = ? where studentId = ?";
+                            choice = "DOB";
+                            logger.info("Update " + choice + "yyyy-mm-dd:= (Example: 2000-10-10 )");
+                            name = sc.next();
+                            if (!name.matches("[1-2][0-9][0-9][0-9][-][0-1][0-9][-][0-3][0-9]")) {
+                                logger.warn("Incorrect format");
+                            }
+                        } else {
+                            logger.warn("Wrong Choice");
+                        }
 
-                System.out.println("Press 2 to update FatherName || Press 3 to update MotherName || Press 4 to update Address || Press 5 to update DOB ");
-                int i = sc.nextInt();
-
-                String column = rsm.getColumnName(i);
-                String query = "update studentPersonalDetails set " + column + " = (?) where studentId = (?)";
-                if (i == 2 || i == 3 || i == 4 || i == 5) {
-                    if (i == 2) {
-                        String choice = "Father-Name";
-                        System.out.print("Update " + choice + ":=");
-                    } else if (i == 3) {
-                        String choice = "Mother-Name";
-                        System.out.print("Update " + choice + ":=");
-                    } else if (i == 4) {
-                        String choice = "Address";
-                        System.out.print("Update " + choice + ":=");
-                    } else if (i == 5) {
-                        String choice = "DOB";
-                        System.out.print("Update " + choice + ":=");
-                    }
-                    String name = sc.next();
-                    pStatement = connection.prepareStatement(query);
-                    pStatement.setString(1, name);
-                    pStatement.setInt(2, student.getStudentId());
-                    int row = pStatement.executeUpdate();
-                    if (row > 0) {
-                        System.out.println("Updated");
-                    } else {
-                        System.out.println("Data Not Found");
+                        pStatement = connection.prepareStatement(query);
+                        pStatement.setString(1, name);
+                        pStatement.setInt(2, student.getStudentId());
+                        int row = pStatement.executeUpdate();
+                        if (row > 0) {
+                            logger.info("Updated");
+                        } else {
+                            logger.warn("Data Not Updated");
+                        }
                     }
                 }
             }catch (Exception e){
@@ -109,46 +145,100 @@ public class UpdateInStudentRecords {
         private void updateStudentMarks(Connection connection, Logger logger, StudentGetterSetter student, Scanner sc){
 
             String select = "select * from studentMarks";
+            String query = "";
+            float name = 0;
+            String choice;
             try {
                 stmt = connection.createStatement();
                 rs = stmt.executeQuery(select);
-                rs.next();
-                rsm = rs.getMetaData();
-
-                System.out.println("Press 2 to update English || Press 3 to update Hindi || Press 4 to update Maths || Press 5 to update Science || Press 6 to update Social := ");
-                int i = sc.nextInt();
-
-                String column = rsm.getColumnName(i);
-                String query = "update studentMarks set " + column + " = (?) where studentId = (?)";
-                if (i == 2) {
-                    String choice = "English";
-                    System.out.println("Update " + choice + " marks:=");
-                } else if (i == 3) {
-                    String choice = "Hindi";
-                    System.out.println("Update " + choice + " marks:=");
-                } else if (i == 4) {
-                    String choice = "Maths";
-                    System.out.println("Update " + choice + " marks:=");
-                } else if (i == 5) {
-                    String choice = "Science";
-                    System.out.println("Update " + choice + " marks:=");
-                } else if (i == 6) {
-                    String choice = "Social";
-                    System.out.println("Update " + choice + " marks:=");
-                }
-                float name = sc.nextFloat();
-
-                pStatement = connection.prepareStatement(query);
-                pStatement.setFloat(1, name);
-                pStatement.setInt(2, student.getStudentId());
-                int row = pStatement.executeUpdate();
-                if (row > 0) {
-                    logger.info("Record Updated ");
-                } else {
-                    System.out.println("Data Not Updated");
+                while(rs.next()) {
+                    if (student.getStudentId() == rs.getInt("studentId"))
+                    {
+                        logger.info("Press 2 to update English || Press 3 to update Hindi || Press 4 to update Maths || Press 5 to update Science || Press 6 to update Social:= ");
+                        int i = sc.nextInt();
+                        if (i == 2) {
+                            query = "update studentMarks set english = ? where studentId = ?";
+                            choice = "English";
+                            logger.info("Update " + choice + " marks:=");
+                            name = sc.nextFloat();
+                            if (name > 100) {
+                                logger.warn("Marks entered must be more than 100");
+                            }
+                        }
+                        else if (i == 3) {
+                             choice = "Hindi";
+                            logger.info("Update " + choice + " marks:=");
+                            name = sc.nextFloat();
+                            if (name > 100) {
+                                logger.warn("Marks entered must be more than 100");
+                            }
+                        } else if (i == 4) {
+                             choice = "Maths";
+                            logger.info("Update " + choice + " marks:=");
+                            name = sc.nextFloat();
+                            if (name > 100) {
+                                logger.warn("Marks entered must be more than 100");
+                            }
+                        } else if (i == 5) {
+                             choice = "Science";
+                            logger.info("Update " + choice + " marks:=");
+                            name = sc.nextFloat();
+                            if (name > 100) {
+                                logger.warn("Marks entered must be more than 100");
+                            }
+                        } else if (i == 6) {
+                             choice = "Social";
+                            logger.info("Update " + choice + " marks:=");
+                            name = sc.nextFloat();
+                            if (name > 100) {
+                                logger.warn("Marks entered must be more than 100");
+                            }
+                        }
+                        pStatement = connection.prepareStatement(query);
+                        pStatement.setFloat(1, name);
+                        pStatement.setInt(2, student.getStudentId());
+                        updatePercentage(connection, student.getStudentId(), logger, student);
+                        int row = pStatement.executeUpdate();
+                        if (row > 0) {
+                            logger.info("Updated");
+                        } else {
+                            logger.warn("Data Not Updated");
+                        }
+                    }
                 }
             }catch (Exception e){
                 logger.error(String.valueOf(e));
             }
         }
+    private void updatePercentage(Connection connection, int id, Logger logger, StudentGetterSetter student ) {
+        try {
+            String select = "select english,hindi, science, maths, social from studentMarks where studentId = " + id;
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(select);
+            rs.next();
+            student.setEnglish(rs.getFloat("english"));
+            student.setHindi(rs.getFloat("hindi"));
+            student.setMaths(rs.getFloat("maths"));
+            student.setScience(rs.getFloat("science"));
+            student.setSocial(rs.getFloat("social"));
+            float total = student.getEnglish() + student.getHindi() + student.getMaths() + student.getScience() + student.getSocial();
+            float percent = (total * 100) / 500;
+
+            String query = "update student set percentage = ? where rollno = ?";
+            pStatement = connection.prepareStatement(query);
+            pStatement.setInt(2, id);
+            pStatement.setFloat(1, percent);
+            pStatement.executeUpdate();
+            logger.info("Percentage Updated!!!");
+        } catch (Exception e) {
+            logger.info(String.valueOf(e));
+        }
+        try {
+            stmt.close();
+            rs.close();
+            pStatement.close();
+        } catch (SQLException e) {
+           logger.info(String.valueOf(e));
+        }
+    }
 }
