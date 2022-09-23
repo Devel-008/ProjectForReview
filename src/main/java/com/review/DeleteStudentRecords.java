@@ -55,7 +55,7 @@ public class DeleteStudentRecords {
         }
     }
 
-    public void deleteStudentRecord(Connection connection, Logger logger, StudentGetterSetter student) {
+    public boolean deleteStudentRecord(Connection connection, Logger logger, StudentGetterSetter student) {
         try {
                     String deleteStudent = "delete from student where id = ?";
                     String deleteStudentMarks = "delete from studentMarks where studentId = ?";
@@ -80,5 +80,6 @@ public class DeleteStudentRecords {
             } catch (Exception e){
             logger.error("Error in deleteStudentRecord :="+e);
         }
+        return true;
     }
 }

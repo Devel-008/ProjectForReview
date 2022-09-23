@@ -47,8 +47,8 @@ public class MainCrud {
         while (true) {
             logger.info("""
                     1] Press 1 to INSERT 2] Press 2 to DELETE 3]Press 3 to READ\s
-                    4]Press 4 to UPDATE 5]Press 5 to insert data from any JSON-File in database\s
-                    6]Press any other key to exit""");
+                    4]Press 4 to UPDATE 5]Press 5 to insert data from any\040
+                    JSON-File in database\s6]Press any other key to exit""");
             choice = sc.nextInt();
             switch (choice) {
                 case 1 -> insert.insert(connection, sc, student, logger);

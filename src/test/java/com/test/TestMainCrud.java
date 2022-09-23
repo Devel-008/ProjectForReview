@@ -55,6 +55,8 @@ public class TestMainCrud {
             softAssert.assertEquals(id1,student.getStudentId());
             softAssert.assertEquals(id2,student.getStudentId());
             softAssert.assertAll();
+            preparedStatement.close();
+            rs.close();
             logger.info("Successful on ID");
         } catch (Exception e) {
             logger.error(String.valueOf(e));
@@ -77,6 +79,7 @@ public class TestMainCrud {
             softAssert.assertEquals(name,student.getStudentName());
             softAssert.assertEquals(lName,student.getStudentLastName());
             softAssert.assertAll();
+            preparedStatement.close();
             logger.info("Successful on Name");
         } catch (Exception e) {
             logger.error(String.valueOf(e));
@@ -109,6 +112,8 @@ public class TestMainCrud {
             softAssert.assertEquals(address,student.getAddress());
             softAssert.assertEquals(dob,student.getDob());
             softAssert.assertAll();
+            preparedStatement.close();
+            rs.close();
             logger.info("Successful on Details");
         }catch(Exception e){
             logger.error(String.valueOf(e));
@@ -142,6 +147,9 @@ public class TestMainCrud {
             softAssert.assertEquals(maths, student.getMaths());
             softAssert.assertEquals(science,student.getScience());
             softAssert.assertEquals(social,student.getSocial());
+            preparedStatement.close();
+            rs.close();
+            softAssert.assertAll();
             logger.info("Successful on marks");
         }catch(Exception e){
             logger.error(String.valueOf(e));
@@ -163,6 +171,8 @@ public class TestMainCrud {
             softAssert.assertEquals(id, student.getStudentId());
             softAssert.assertEquals(percentage,student.getPercentage());
             softAssert.assertAll();
+            preparedStatement.close();
+            rs.close();
             logger.info("Successful with percentage");
         }catch (Exception e){
             logger.error(String.valueOf(e));
@@ -227,6 +237,8 @@ public class TestMainCrud {
              softAssert.assertEquals(percent,student.getPercentage());
 
              softAssert.assertAll();
+             preparedStatement.close();
+             rs.close();
 
          }catch (Exception e){
              logger.error(""+e);
@@ -295,6 +307,8 @@ public class TestMainCrud {
             softAssert.assertEquals(social, student.getSocial());
             softAssert.assertEquals(percent, student.getPercentage());
             softAssert.assertAll();
+            preparedStatement.close();
+            rs.close();
         }catch (Exception e){
             logger.error("Error on line 300 of test := " +e);
         }
@@ -302,36 +316,18 @@ public class TestMainCrud {
         @Test
         public void testOnDelete(){
         student.setStudentId(4);
-        delete.deleteStudentRecord(connection,logger,student);
-        query = "select student.id, studentPersonalDetails.studentId, studentMarks.studentId from student JOIN studentPersonalDetails ON student.id =studentPersonalDetails.studentId JOIN studentMarks ON student.id = studentMarks.studentId where student.id = ?";
-            try {
-                preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setInt(1, student.getStudentId());
-                rs = preparedStatement.executeQuery();
-                rs.next();
-                int id = rs.getInt("id");
-                int id1 = rs.getInt("studentId");
-                int id2 = rs.getInt("studentId");
-
-                softAssert.assertNull(id);
-                softAssert.assertNull(id1);
-                softAssert.assertNull(id2);
-                softAssert.assertAll();
-            }catch (Exception e){
-                logger.error("Error at testOnDelete:= " + e);
-            }
+            boolean result = delete.deleteStudentRecord(connection,logger,student);
+            softAssert.assertTrue(result);
+            softAssert.assertAll();
         }
 
     @AfterClass
     public void tearDown() {
-        if (connection != null || rs != null || preparedStatement != null || statement != null) {
+        if (connection != null) {
             try {
                 connection.close();
-                preparedStatement.close();
-                statement.close();
-                rs.close();
             } catch (Exception e) {
-                logger.error("Error on line 317 of test := " + e);
+                logger.error("Error at tearDown test := " + e);
             }
         }
     }
