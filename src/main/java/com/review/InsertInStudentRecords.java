@@ -9,12 +9,7 @@ import java.util.Scanner;
 
 public class InsertInStudentRecords {
 
-    private static final String insertStudent = "insert into student (id, studentName,lastName) values(?, ?, ?)";
-    private static final String insertStudentMarks = "insert into studentMarks(studentId, english, hindi, maths, science, social, percentage ) values(?, ?, ?, ?, ?, ?, ?)";
-    private static final String insertStudentDetails = "insert into studentPersonalDetails(studentId, fatherName, motherName, address, dob) values(?, ?, ?, ?, ?)";
-
-
-    public void insert(Connection connection, Scanner sc, StudentGetterSetter student,  Logger logger) {
+    public void insert(Connection connection, Scanner sc, StudentGetterSetter student, Logger logger) {
         try {
             //input student-id
             logger.info("Enter Student-Id:=");
@@ -94,7 +89,12 @@ public class InsertInStudentRecords {
         insertInStudent(connection, logger, student);
     }
 
-    private static void insertInStudent(Connection connection, Logger logger, StudentGetterSetter student) {
+    public void insertInStudent(Connection connection, Logger logger, StudentGetterSetter student) {
+
+        String insertStudent = "insert into student (id, studentName,lastName) values(?, ?, ?)";
+        String insertStudentMarks = "insert into studentMarks(studentId, english, hindi, maths, science, social, percentage ) values(?, ?, ?, ?, ?, ?, ?)";
+        String insertStudentDetails = "insert into studentPersonalDetails(studentId, fatherName, motherName, address, dob) values(?, ?, ?, ?, ?)";
+        int i =0;
         try {
             PreparedStatement statement = connection.prepareStatement(insertStudent);
             PreparedStatement statement1 = connection.prepareStatement(insertStudentDetails);
@@ -102,13 +102,11 @@ public class InsertInStudentRecords {
             statement.setInt(1, student.getStudentId());
             statement.setString(2, student.getStudentName());
             statement.setString(3, student.getStudentLastName());
-
             statement1.setInt(1, student.getStudentId());
             statement1.setString(2, student.getFatherName());
             statement1.setString(3, student.getMotherName());
             statement1.setString(4, student.getAddress());
             statement1.setString(5, student.getDob());
-
             statement2.setInt(1, student.getStudentId());
             statement2.setFloat(2, student.getEnglish());
             statement2.setFloat(3, student.getHindi());
@@ -117,14 +115,15 @@ public class InsertInStudentRecords {
             statement2.setFloat(6, student.getSocial());
             statement2.setFloat(7, student.getPercentage());
 
-            int i = statement.executeUpdate();
-            int i1 = statement1.executeUpdate();
-            int i2 = statement2.executeUpdate();
+            statement.executeUpdate();
+            statement1.executeUpdate();
+            statement2.executeUpdate();
+            i += 1;
             statement.close();
             statement1.close();
             statement2.close();
 
-            if (i > 0 || i1 > 0 || i2 > 2) {
+            if (i > 0) {
                 logger.info("Data Inserted!!");
             } else {
                 logger.warn("Data Not Inserted");

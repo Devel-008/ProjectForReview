@@ -42,12 +42,13 @@ public class FetchStudentRecords {
             preStatement.setInt(1, student.getStudentId());
             rSet = preStatement.executeQuery();
             while (rSet.next()) {
-                logger.info("Name := " + rSet.getString("studentName") + " " + rSet.getString("lastName") + " \nFather's Name := " + rSet.getString("FatherName") + ", Mother's Name := " + rSet.getString("motherName") + ", Address := " + rSet.getString("address") + ", Date of Birth := " + rSet.getString("dob") + "\nEnglish Marks:= " + rSet.getFloat("english") + ", Hindi Marks:= " + rSet.getFloat("hindi") + ", Maths Marks:= " + rSet.getFloat("maths") + ", Science Marks:= " + rSet.getFloat("science") + ", Social Marks:= " + rSet.getFloat("social") + ", Percentage Marks:= " + rSet.getFloat("percentage"));
+                logger.info("Name := " + rSet.getString("studentName") + " " + rSet.getString("lastName") + " \nFather's Name := " + rSet.getString("FatherName") + ", Mother's Name := " + rSet.getString("motherName") + ", Address := " + rSet.getString("address") + ", Date of Birth := " + rSet.getString("dob") + "\nEnglish Marks:= " + rSet.getFloat("english") + ", Hindi Marks:= " + rSet.getFloat("hindi") + ", Maths Marks:= " + rSet.getFloat("maths") + ", Science Marks:= " + rSet.getFloat("science") + ", Social Marks:= " + rSet.getFloat("social") + ", Percentage Marks:= " + rSet.getFloat("percentage")+"\n");
                 count++;
             }
             if (count <= 0) {
                 logger.warn("No Data with such ID");
             }
+            preStatement.close();
         }catch (Exception e){
             logger.error(String.valueOf(e));
         }
@@ -69,6 +70,7 @@ public class FetchStudentRecords {
             if (count <= 0) {
                logger.warn("No Data Found!!");
             }
+
             stmt.close();
             rSet.close();
         }catch(Exception e){

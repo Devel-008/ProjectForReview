@@ -133,7 +133,6 @@ public class StudentGetterSetter {
         this.social = social;
         this.percentage = percentage;
     }
-
     public StudentGetterSetter(){
         super();
     }
