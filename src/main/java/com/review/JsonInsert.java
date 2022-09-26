@@ -82,8 +82,7 @@ public class JsonInsert {
                 }
             }
         } catch (Exception e) {
-            logger.error(String.valueOf(e));
+            logger.error("Error at readData := " + e);
         }
     }
-
 }

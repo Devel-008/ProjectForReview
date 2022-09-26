@@ -84,7 +84,7 @@ public class InsertInStudentRecords {
             float total = student.getEnglish() + student.getHindi() + student.getMaths() + student.getScience() + student.getSocial();
             student.setPercentage((total * 100) / 500);
         } catch (Exception e) {
-            logger.error(String.valueOf(e));
+            logger.error("Error at insert := " + e);
         }
         insertInStudent(connection, logger, student);
     }
@@ -94,7 +94,7 @@ public class InsertInStudentRecords {
         String insertStudent = "insert into student (id, studentName,lastName) values(?, ?, ?)";
         String insertStudentMarks = "insert into studentMarks(studentId, english, hindi, maths, science, social, percentage ) values(?, ?, ?, ?, ?, ?, ?)";
         String insertStudentDetails = "insert into studentPersonalDetails(studentId, fatherName, motherName, address, dob) values(?, ?, ?, ?, ?)";
-        int i =0;
+        int i = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(insertStudent);
             PreparedStatement statement1 = connection.prepareStatement(insertStudentDetails);
@@ -129,7 +129,7 @@ public class InsertInStudentRecords {
                 logger.warn("Data Not Inserted");
             }
         } catch (Exception e) {
-            logger.error(String.valueOf(e));
+            logger.error("Error at insertInStudent := " + e);
         }
     }
 

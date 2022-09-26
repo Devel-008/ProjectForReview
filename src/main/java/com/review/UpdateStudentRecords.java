@@ -213,7 +213,7 @@ public class UpdateStudentRecords {
                         updatePercentage(connection, logger, student);
                         tearDown(connection, logger);
                     } catch (Exception e) {
-                        logger.error("Error on line 215 in update:- " + e);
+                        logger.error("Error on line 216 in update:- " + e);
                     }
                 }
                 case 4 -> {
@@ -276,9 +276,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 270 in update:- " + e);
+            logger.error("Error at updateName := " + e);
         }
     }
+
     public void updateLName(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update student set lastName = ? where id = ?";
         try {
@@ -292,9 +293,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 286 in update:- " + e);
+            logger.error("Error at updateLName := " + e);
         }
     }
+
     public void updateFName(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update studentPersonalDetails set fatherName = ? where studentId = ?";
         try {
@@ -308,9 +310,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 302 in update:- " + e);
+            logger.error("Error at updateFName := " + e);
         }
     }
+
     public void updateMName(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update studentPersonalDetails set motherName = ? where studentId = ?";
         try {
@@ -324,9 +327,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 327 in update:- " + e);
+            logger.error("Error at updateMName := " + e);
         }
     }
+
     public void updateAddress(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update studentPersonalDetails set address = ? where studentId = ?";
         try {
@@ -340,9 +344,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 334 in update:- " + e);
+            logger.error("Error at updateAddress := " + e);
         }
     }
+
     public void updateDob(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update studentPersonalDetails set dob = ? where studentId = ?";
         try {
@@ -356,10 +361,11 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 350 in update:- " + e);
+            logger.error("Error at updateDob := " + e);
         }
 
     }
+
     public void updateEnglish(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update studentMarks set english = ? where studentId = ?";
         try {
@@ -373,9 +379,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 376 in update:- " + e);
+            logger.error("Error at updateEnglish := " + e);
         }
     }
+
     public void updateHindi(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update studentMarks set hindi = ? where studentId = ?";
         try {
@@ -389,9 +396,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 393 in update:- " + e);
+            logger.error("Error at updateHindi := " + e);
         }
     }
+
     public void updateMaths(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update studentMarks set maths = ? where studentId = ?";
         try {
@@ -405,9 +413,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 408 in update:- " + e);
+            logger.error("Error at updateMaths := " + e);
         }
     }
+
     public void updateScience(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update studentMarks set science = ? where studentId = ?";
         try {
@@ -421,9 +430,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 424 in update:- " + e);
+            logger.error("Error at updateScience := " + e);
         }
     }
+
     public void updateSocial(Connection connection, Logger logger, StudentGetterSetter student) {
         query = "update studentMarks set social = ? where studentId = ?";
         try {
@@ -437,9 +447,10 @@ public class UpdateStudentRecords {
                 logger.warn("Not updated");
             }
         } catch (Exception e) {
-            logger.error("Error on line 440 in update:- " + e);
+            logger.error("Error at updateSocial := " + e);
         }
     }
+
     public void updatePercentage(Connection connection, Logger logger, StudentGetterSetter student) {
         select = "select english,hindi, science, maths, social from studentMarks where studentId = " + student.getStudentId();
         try {
@@ -460,14 +471,15 @@ public class UpdateStudentRecords {
             preparedStatement.setFloat(1, student.getPercentage());
             int x = preparedStatement.executeUpdate();
             if (x <= 0) {
-                logger.info("Percentage not Updated!!!");
+                logger.warn("Percentage not Updated!!!");
             } else {
                 logger.info("Percentage Updated!!!");
             }
         } catch (Exception e) {
-            logger.error("Error on line 468 in update:- " + e);
+            logger.error("Error at updatePercentage := " + e);
         }
     }
+
     public void tearDown(Connection connection, Logger logger) {
         try {
             if (connection != null || statement != null || preparedStatement != null || rs != null) {
@@ -477,7 +489,7 @@ public class UpdateStudentRecords {
                 rs.close();
             }
         } catch (Exception e) {
-            logger.error("Error on line 480 in update:- " + e);
+            logger.error("Error at tearDown := " + e);
         }
 
     }

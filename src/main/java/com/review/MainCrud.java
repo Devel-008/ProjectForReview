@@ -25,7 +25,7 @@ public class MainCrud {
             connection = DriverManager.getConnection(url, username, password);
             logger.info("connected");
         } catch (Exception e) {
-            logger.error(String.valueOf(e));
+            logger.error("Error at Connected := " + e);
         }
         try {
             assert connection != null;
@@ -33,7 +33,7 @@ public class MainCrud {
                 logger.info("Not Connected");
             }
         } catch (SQLException e) {
-            logger.error(String.valueOf(e));
+            logger.error("Error at notConnected := " + e);
         }
 
         InsertInStudentRecords insert = new InsertInStudentRecords();
@@ -54,8 +54,8 @@ public class MainCrud {
                 case 1 -> insert.insert(connection, sc, student, logger);
                 case 2 -> delete.delete(connection, student, logger, sc);
                 case 3 -> fetch.select(connection, logger, student, sc);
-                case 4 -> up.updateRecords(sc,logger,connection,student);
-                case 5 -> json.readData(sc,connection,logger,student);
+                case 4 -> up.updateRecords(sc, logger, connection, student);
+                case 5 -> json.readData(sc, connection, logger, student);
                 default -> {
                     logger.info("\nDo you want to continue:= Press any key or else Press 0 to exit!!");
                     int n = sc.nextInt();
@@ -65,8 +65,8 @@ public class MainCrud {
                             connection.close();
                             sc.close();
                             logger.info("Connection Closed!!");
-                        } catch (SQLException e) {
-                            logger.error(String.valueOf(e));
+                        } catch (Exception e) {
+                            logger.error("Error at ConnectionClosed  := " + e);
                         }
                         return;
                     }

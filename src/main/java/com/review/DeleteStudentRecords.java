@@ -1,7 +1,6 @@
 package com.review;
 
 import org.slf4j.Logger;
-
 import java.sql.*;
 import java.util.Scanner;
 
@@ -29,7 +28,7 @@ public class DeleteStudentRecords {
                 logger.warn("Name := " + rSet.getString("studentName") + " " + rSet.getString("lastName")
                         + " \nFather's Name := " + rSet.getString("FatherName") + ", Mother's Name := " + rSet.getString
                         ("motherName") + ", Address := " + rSet.getString("address") + ", Date of Birth := " + rSet
-                        .getString("dob") +"\nEnglish Marks:= " + rSet.getFloat("english") + ", Hindi Marks:= " +
+                        .getString("dob") + "\nEnglish Marks:= " + rSet.getFloat("english") + ", Hindi Marks:= " +
                         rSet.getFloat("hindi") + ", Maths Marks:= " + rSet.getFloat("maths") + ", Science Marks:= " +
                         rSet.getFloat("science") + ", Social Marks:= " + rSet.getFloat("social") + ", Percentage Marks:= "
                         + rSet.getFloat("percentage"));
@@ -51,35 +50,36 @@ public class DeleteStudentRecords {
             rSet.close();
             preStatement.close();
         } catch (Exception e) {
-            logger.error("Error at delete :="+e);
+            logger.error("Error at delete :=" + e);
         }
     }
 
     public boolean deleteStudentRecord(Connection connection, Logger logger, StudentGetterSetter student) {
         try {
-                    String deleteStudent = "delete from student where id = ?";
-                    String deleteStudentMarks = "delete from studentMarks where studentId = ?";
-                    String deleteStudentDetails = "delete from studentPersonalDetails where studentId = ?";
-                    PreparedStatement statement = connection.prepareStatement(deleteStudent);
-                    statement.setInt(1, student.getStudentId());
-                    PreparedStatement statement1 = connection.prepareStatement(deleteStudentDetails);
-                    statement1.setInt(1, student.getStudentId());
-                    PreparedStatement statement2 = connection.prepareStatement(deleteStudentMarks);
-                    statement2.setInt(1, student.getStudentId());
-                    int i = statement.executeUpdate();
-                    int i1 = statement1.executeUpdate();
-                    int i2 = statement2.executeUpdate();
-                    statement.close();
-                    statement1.close();
-                    statement2.close();
-                    if (i > 0 || i1 > 0 || i2 > 0) {
-                        logger.info("Data Deleted !!");
-                    } else {
-                        logger.warn("Data Not Deleted");
-                    }
-            } catch (Exception e){
-            logger.error("Error in deleteStudentRecord :="+e);
+            String deleteStudent = "delete from student where id = ?";
+            String deleteStudentMarks = "delete from studentMarks where studentId = ?";
+            String deleteStudentDetails = "delete from studentPersonalDetails where studentId = ?";
+            PreparedStatement statement = connection.prepareStatement(deleteStudent);
+            statement.setInt(1, student.getStudentId());
+            PreparedStatement statement1 = connection.prepareStatement(deleteStudentDetails);
+            statement1.setInt(1, student.getStudentId());
+            PreparedStatement statement2 = connection.prepareStatement(deleteStudentMarks);
+            statement2.setInt(1, student.getStudentId());
+            int i = statement.executeUpdate();
+            int i1 = statement1.executeUpdate();
+            int i2 = statement2.executeUpdate();
+            statement.close();
+            statement1.close();
+            statement2.close();
+            if (i > 0 || i1 > 0 || i2 > 0) {
+                logger.info("Data Deleted !!");
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("Error in deleteStudentRecord :=" + e);
         }
-        return true;
+        return false;
     }
 }

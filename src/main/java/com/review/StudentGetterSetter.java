@@ -38,6 +38,7 @@ public class StudentGetterSetter {
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
+
     public String getFatherName() {
         return fatherName;
     }
@@ -133,7 +134,8 @@ public class StudentGetterSetter {
         this.social = social;
         this.percentage = percentage;
     }
-    public StudentGetterSetter(){
+
+    public StudentGetterSetter() {
         super();
     }
 }

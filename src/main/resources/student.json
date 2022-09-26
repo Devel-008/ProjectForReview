@@ -1,7 +1,7 @@
 {
   "students": [
     {
-      "id": 4,
+      "id": 7,
       "studentName": "jiya",
       "lastName": "manek",
       "fatherName": "johan",
@@ -15,7 +15,34 @@
       "social": 100
     },
     {
-      "id": 5,
+      "id": 8,
+      "studentName": "jiya",
+      "lastName": "manek",
+      "fatherName": "johan",
+      "motherName": "jenny",
+      "address": "banglore",
+      "dob": "1999-10-19",
+      "english": 100,
+      "hindi": 100,
+      "maths": 100,
+      "science": 100,
+      "social": 100
+    },
+    {
+      "id": 9,
+      "studentName": "jiya",
+      "lastName": "manek",
+      "fatherName": "johan",
+      "motherName": "jenny",
+      "address": "banglore",
+      "dob": "1999-10-19",
+      "english": 100,
+      "hindi": 100,
+      "maths": 100,
+      "science": 100,
+      "social": 100
+    },{
+      "id": 10,
       "studentName": "jiya",
       "lastName": "manek",
       "fatherName": "johan",
