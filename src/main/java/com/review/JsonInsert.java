@@ -23,15 +23,14 @@ public class JsonInsert {
         int count = 0;
         JSONParser parser = new JSONParser();
 
+        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement1 = null;
+        PreparedStatement preparedStatement2 = null;
         try {
             JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(filePath));
             JSONArray array = (JSONArray) jsonObject.get("students");
 
-            PreparedStatement preparedStatement;
-            PreparedStatement preparedStatement1;
-            PreparedStatement preparedStatement2;
-
-            for(Object object : array){
+            for (Object object : array) {
                 JSONObject record = (JSONObject) object;
                 studentCheck.setStudentId(Integer.parseInt(record.get("id").toString()));
                 studentCheck.setStudentName((String) record.get("studentName"));
@@ -83,6 +82,10 @@ public class JsonInsert {
             }
         } catch (Exception e) {
             logger.error("Error at readData := " + e);
+        } finally {
+            if (preparedStatement != null && preparedStatement1 != null && preparedStatement2 != null){
+
+            }
         }
     }
 }

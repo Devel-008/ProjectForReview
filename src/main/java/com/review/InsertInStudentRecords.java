@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
@@ -95,10 +96,13 @@ public class InsertInStudentRecords {
         String insertStudentMarks = "insert into studentMarks(studentId, english, hindi, maths, science, social, percentage ) values(?, ?, ?, ?, ?, ?, ?)";
         String insertStudentDetails = "insert into studentPersonalDetails(studentId, fatherName, motherName, address, dob) values(?, ?, ?, ?, ?)";
         int i = 0;
+        PreparedStatement statement = null;
+        PreparedStatement statement1 = null;
+        PreparedStatement statement2 = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(insertStudent);
-            PreparedStatement statement1 = connection.prepareStatement(insertStudentDetails);
-            PreparedStatement statement2 = connection.prepareStatement(insertStudentMarks);
+            statement = connection.prepareStatement(insertStudent);
+            statement1 = connection.prepareStatement(insertStudentDetails);
+            statement2 = connection.prepareStatement(insertStudentMarks);
             statement.setInt(1, student.getStudentId());
             statement.setString(2, student.getStudentName());
             statement.setString(3, student.getStudentLastName());
@@ -119,9 +123,6 @@ public class InsertInStudentRecords {
             statement1.executeUpdate();
             statement2.executeUpdate();
             i += 1;
-            statement.close();
-            statement1.close();
-            statement2.close();
 
             if (i > 0) {
                 logger.info("Data Inserted!!");
@@ -130,6 +131,16 @@ public class InsertInStudentRecords {
             }
         } catch (Exception e) {
             logger.error("Error at insertInStudent := " + e);
+        } finally {
+            try {
+                if(statement != null && statement1 != null && statement2 != null)
+                statement.close();
+                statement1.close();
+                statement2.close();
+            } catch (SQLException e) {
+               logger.error("");
+            }
+
         }
     }
 

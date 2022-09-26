@@ -9,6 +9,11 @@ import java.util.Scanner;
 public class FetchStudentRecords {
     ResultSet rSet;
     int count = 0;
+    String selectQuery = " select student.studentName, student.lastName, " +
+            " studentPersonalDetails.fatherName, studentPersonalDetails.motherName, studentPersonalDetails.address, "
+            + "studentPersonalDetails.dob, " + " studentMarks.english, studentMarks.hindi, studentMarks.maths, studentMarks.science, " +
+            "studentMarks.social, studentMarks.percentage " + " from student JOIN studentMarks on student.id = studentMarks.studentId " +
+            "JOIN studentPersonalDetails on studentPersonalDetails.studentId = student.id " + " where student.id = ? ";
 
     public void select(Connection connection, Logger logger, StudentGetterSetter student, Scanner sc) {
         logger.info("Press 1 to see all data || Press 2 to see random data := ");
@@ -26,14 +31,9 @@ public class FetchStudentRecords {
     }
 
     private void selectRandom(Connection connection, Logger logger, StudentGetterSetter student) {
-        String query = " select student.studentName, student.lastName, " +
-                " studentPersonalDetails.fatherName, studentPersonalDetails.motherName, studentPersonalDetails.address, "
-                + "studentPersonalDetails.dob, " + " studentMarks.english, studentMarks.hindi, studentMarks.maths, studentMarks.science, " +
-                "studentMarks.social, studentMarks.percentage " + " from student JOIN studentMarks on student.id = studentMarks.studentId " +
-                "JOIN studentPersonalDetails on studentPersonalDetails.studentId = student.id " + " where student.id = ? ";
         PreparedStatement preStatement;
         try {
-            preStatement = connection.prepareStatement(query);
+            preStatement = connection.prepareStatement(selectQuery);
             preStatement.setInt(1, student.getStudentId());
             rSet = preStatement.executeQuery();
             while (rSet.next()) {
@@ -53,6 +53,9 @@ public class FetchStudentRecords {
         } catch (Exception e) {
             logger.error("Error at selectRandom := " + e);
         }
+    }
+    private void select(Connection connection, Logger logger, StudentGetterSetter student){
+
     }
 
     private void selectAll(Connection connection, Logger logger) {
