@@ -7,19 +7,21 @@ import java.util.Scanner;
 public class DeleteStudentRecords {
 
     public void delete(Connection connection, StudentGetterSetter student, Logger logger, Scanner sc) {
+        ResultSet rSet = null;
+        PreparedStatement preStatement = null;
         try {
             logger.info("Enter Roll-no of person you want to delete :=");
             student.setStudentId(sc.nextInt());
 
             String query = " select student.studentName, student.lastName, " + " studentPersonalDetails.fatherName, " +
                     "studentPersonalDetails.motherName, studentPersonalDetails.address, studentPersonalDetails.dob, " +
-                    "studentMarks.english,studentMarks.hindi,studentMarks.maths,studentMarks.science,studentMarks.social,studentMarks.percentage "
-                    + " from student join studentMarks on student.id = studentMarks.studentId join studentPersonalDetails on " +
-                    "studentPersonalDetails.studentId = student.id " + " where student.id = ? ";
+                    "studentMarks.english,studentMarks.hindi,studentMarks.maths,studentMarks.science,studentMarks.social,studentMarks" +
+                    ".percentage " + " from student join studentMarks on student.id = studentMarks.studentId join studentPersonalDetails on "
+                    + "studentPersonalDetails.studentId = student.id " + " where student.id = ? ";
 
-            PreparedStatement preStatement = connection.prepareStatement(query);
+            preStatement = connection.prepareStatement(query);
             preStatement.setInt(1, student.getStudentId());
-            ResultSet rSet = preStatement.executeQuery();
+            rSet = preStatement.executeQuery();
             int count = 0;
 
             while (rSet.next()) {
@@ -30,8 +32,8 @@ public class DeleteStudentRecords {
                         ("motherName") + ", Address := " + rSet.getString("address") + ", Date of Birth := " + rSet
                         .getString("dob") + "\nEnglish Marks:= " + rSet.getFloat("english") + ", Hindi Marks:= " +
                         rSet.getFloat("hindi") + ", Maths Marks:= " + rSet.getFloat("maths") + ", Science Marks:= " +
-                        rSet.getFloat("science") + ", Social Marks:= " + rSet.getFloat("social") + ", Percentage Marks:= "
-                        + rSet.getFloat("percentage"));
+                        rSet.getFloat("science") + ", Social Marks:= " + rSet.getFloat("social") + ", Percentage  " +
+                        "Marks:= " + rSet.getFloat("percentage"));
                 count++;
             }
             if (count <= 0) {
@@ -47,31 +49,40 @@ public class DeleteStudentRecords {
                     logger.warn("Data not Deleted");
                 }
             }
-            rSet.close();
-            preStatement.close();
+
         } catch (Exception e) {
             logger.error("Error at delete :=" + e);
+        } finally {
+            try {
+                if(rSet != null && preStatement != null) {
+                    rSet.close();
+                    preStatement.close();
+                }
+            } catch (SQLException e) {
+                logger.error("Error at delete while closing resultset and preparestatement ", e);
+            }
         }
     }
 
     public boolean deleteStudentRecord(Connection connection, Logger logger, StudentGetterSetter student) {
+        PreparedStatement statement = null;
+        PreparedStatement statement1 = null;
+        PreparedStatement statement2 = null;
         try {
             String deleteStudent = "delete from student where id = ?";
             String deleteStudentMarks = "delete from studentMarks where studentId = ?";
             String deleteStudentDetails = "delete from studentPersonalDetails where studentId = ?";
-            PreparedStatement statement = connection.prepareStatement(deleteStudent);
+            statement = connection.prepareStatement(deleteStudent);
             statement.setInt(1, student.getStudentId());
-            PreparedStatement statement1 = connection.prepareStatement(deleteStudentDetails);
+            statement1 = connection.prepareStatement(deleteStudentDetails);
             statement1.setInt(1, student.getStudentId());
-            PreparedStatement statement2 = connection.prepareStatement(deleteStudentMarks);
+            statement2 = connection.prepareStatement(deleteStudentMarks);
             statement2.setInt(1, student.getStudentId());
             int i = statement.executeUpdate();
             int i1 = statement1.executeUpdate();
             int i2 = statement2.executeUpdate();
-            statement.close();
-            statement1.close();
-            statement2.close();
-            if (i > 0 || i1 > 0 || i2 > 0) {
+
+            if (i > 0 && i1 > 0 && i2 > 0) {
                 logger.info("Data Deleted !!");
                 return true;
             } else {
@@ -79,6 +90,14 @@ public class DeleteStudentRecords {
             }
         } catch (Exception e) {
             logger.error("Error in deleteStudentRecord :=" + e);
+        } finally {
+            try {
+                statement.close();
+                statement1.close();
+                statement2.close();
+            }catch (SQLException e){
+                logger.error("Error at closing prepareStatement:, e");
+            }
         }
         return false;
     }
