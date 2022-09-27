@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainCrud {
@@ -16,7 +17,7 @@ public class MainCrud {
         try {
             connection = null;
             logger = LoggerFactory.getLogger(MainCrud.class);
-            logger.debug("Project starts here !!");
+            logger.info("Project starts here !!");
 
             String url = "jdbc:h2:tcp://localhost/~/test";
             String username = "sa";
@@ -25,8 +26,8 @@ public class MainCrud {
                 Class.forName("org.h2.Driver");
                 connection = DriverManager.getConnection(url, username, password);
                 logger.info("Connected");
-            } catch (Exception e) {
-                logger.error("Error at Connected := " + e);
+            } catch (SQLException | ClassNotFoundException e) {
+                logger.error("Error at Connected := ", e);
             }
             try {
                 assert connection != null;
@@ -34,7 +35,7 @@ public class MainCrud {
                     logger.info("Not Connected");
                 }
             } catch (SQLException e) {
-                logger.error("Error at notConnected := " + e);
+                logger.error("Error at notConnected := ", e);
             }
 
             InsertInStudentRecords insert = new InsertInStudentRecords();
@@ -66,16 +67,16 @@ public class MainCrud {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | InputMismatchException e) {
             logger.error("Error at MainCrud", e);
         } finally {
             try {
-                if(connection != null) {
+                if (connection != null) {
                     connection.close();
                     logger.info("Connection Closed!!");
                 }
             } catch (SQLException e) {
-               logger.error("Error at connection closing", e);
+                logger.error("Error at connection closing", e);
             }
         }
     }

@@ -2,6 +2,7 @@ package com.review;
 
 import org.slf4j.Logger;
 import java.sql.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DeleteStudentRecords {
@@ -50,7 +51,7 @@ public class DeleteStudentRecords {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (SQLException | InputMismatchException | IllegalArgumentException e) {
             logger.error("Error at delete :=" + e);
         } finally {
             try {
@@ -88,7 +89,7 @@ public class DeleteStudentRecords {
             } else {
                 return false;
             }
-        } catch (Exception e) {
+        } catch (SQLException | NullPointerException e) {
             logger.error("Error in deleteStudentRecord :=" + e);
         } finally {
             try {

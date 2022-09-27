@@ -78,7 +78,7 @@
           <config-type value="CUSTOM" />
           <database-version value="2.1" />
           <driver-source value="EXTERNAL" />
-          <driver-library value="$USER_HOME$/Downloads/h2/bin/h2-2.1.214.jar" />
+          <driver-library value="$USER_HOME$/Desktop/h2-2.1.214.jar" />
           <driver value="org.h2.Driver" />
           <url value="jdbc:h2:tcp://localhost/~/test" />
           <type value="USER_PASSWORD" />

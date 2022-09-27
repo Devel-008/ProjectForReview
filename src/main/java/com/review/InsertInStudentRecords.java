@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -84,13 +85,13 @@ public class InsertInStudentRecords {
             //percentage
             float total = student.getEnglish() + student.getHindi() + student.getMaths() + student.getScience() + student.getSocial();
             student.setPercentage((total * 100) / 500);
-        } catch (Exception e) {
+        } catch (InputMismatchException | NullPointerException e) {
             logger.error("Error at insert := " + e);
         }
         insertInStudent(connection, logger, student);
     }
 
-    public void insertInStudent(Connection connection, Logger logger, StudentGetterSetter student) {
+    public boolean insertInStudent(Connection connection, Logger logger, StudentGetterSetter student) {
 
         String insertStudent = "insert into student (id, studentName,lastName) values(?, ?, ?)";
         String insertStudentMarks = "insert into studentMarks(studentId, english, hindi, maths, science, social, percentage ) values(?, ?, ?, ?, ?, ?, ?)";
@@ -126,10 +127,12 @@ public class InsertInStudentRecords {
 
             if (i > 0) {
                 logger.info("Data Inserted!!");
+                return true;
             } else {
                 logger.warn("Data Not Inserted");
+                return false;
             }
-        } catch (Exception e) {
+        } catch (SQLException | NullPointerException e) {
             logger.error("Error at insertInStudent := " + e);
         } finally {
             try {
@@ -138,10 +141,10 @@ public class InsertInStudentRecords {
                 statement1.close();
                 statement2.close();
             } catch (SQLException e) {
-               logger.error("");
+               logger.error("Error at closing statement at insertInStudent", e);
             }
-
         }
+        return false;
     }
 
 }

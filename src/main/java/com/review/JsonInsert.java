@@ -3,11 +3,15 @@ package com.review;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 
+
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
@@ -27,7 +31,12 @@ public class JsonInsert {
         PreparedStatement preparedStatement1 = null;
         PreparedStatement preparedStatement2 = null;
         try {
-            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(filePath));
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = (JSONObject) parser.parse(new FileReader(filePath));
+            } catch (IOException | ParseException e) {
+                logger.error("Error at JsonInsert while fileReader or ");
+            }
             JSONArray array = (JSONArray) jsonObject.get("students");
 
             for (Object object : array) {
@@ -44,7 +53,8 @@ public class JsonInsert {
                 studentCheck.setMaths(Float.parseFloat(record.get("maths").toString()));
                 studentCheck.setScience(Float.parseFloat(record.get("science").toString()));
                 studentCheck.setSocial(Float.parseFloat(record.get("social").toString()));
-                float total = studentCheck.getEnglish() + studentCheck.getHindi() + studentCheck.getMaths() + studentCheck.getScience() + studentCheck.getSocial();
+                float total = studentCheck.getEnglish() + studentCheck.getHindi() + studentCheck.getMaths() +
+                        studentCheck.getScience() + studentCheck.getSocial();
                 studentCheck.setPercentage((total * 100) / 500);
                 preparedStatement = connect.prepareStatement(query);
                 preparedStatement.setInt(1, studentCheck.getStudentId());
@@ -80,11 +90,17 @@ public class JsonInsert {
                     logger.warn("Failed to save data");
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             logger.error("Error at readData := " + e);
         } finally {
             if (preparedStatement != null && preparedStatement1 != null && preparedStatement2 != null){
-
+               try {
+                   preparedStatement.close();
+                   preparedStatement1.close();
+                   preparedStatement2.close();
+               }catch (SQLException e){
+                   logger.error("Error at closing prepareStatement in JsonInsert : =", e);
+               }
             }
         }
     }

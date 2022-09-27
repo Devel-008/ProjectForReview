@@ -9,12 +9,6 @@ import java.util.Scanner;
 public class FetchStudentRecords {
     ResultSet rSet;
     int count = 0;
-    String selectQuery = " select student.studentName, student.lastName, " +
-            " studentPersonalDetails.fatherName, studentPersonalDetails.motherName, studentPersonalDetails.address, "
-            + "studentPersonalDetails.dob, " + " studentMarks.english, studentMarks.hindi, studentMarks.maths, studentMarks.science, " +
-            "studentMarks.social, studentMarks.percentage " + " from student JOIN studentMarks on student.id = studentMarks.studentId " +
-            "JOIN studentPersonalDetails on studentPersonalDetails.studentId = student.id " + " where student.id = ? ";
-
     public void select(Connection connection, Logger logger, StudentGetterSetter student, Scanner sc) {
         logger.info("Press 1 to see all data || Press 2 to see random data := ");
         int check = sc.nextInt();
@@ -30,8 +24,13 @@ public class FetchStudentRecords {
         }
     }
 
-    private void selectRandom(Connection connection, Logger logger, StudentGetterSetter student) {
-        PreparedStatement preStatement;
+    public boolean selectRandom(Connection connection, Logger logger, StudentGetterSetter student) {
+        PreparedStatement preStatement = null;
+        String selectQuery = " select student.studentName, student.lastName, " +
+                " studentPersonalDetails.fatherName, studentPersonalDetails.motherName, studentPersonalDetails.address, "
+                + "studentPersonalDetails.dob, " + " studentMarks.english, studentMarks.hindi, studentMarks.maths, studentMarks.science, " +
+                "studentMarks.social, studentMarks.percentage " + " from student JOIN studentMarks on student.id = studentMarks.studentId " +
+                "JOIN studentPersonalDetails on studentPersonalDetails.studentId = student.id " + " where student.id = ? ";
         try {
             preStatement = connection.prepareStatement(selectQuery);
             preStatement.setInt(1, student.getStudentId());
@@ -48,16 +47,23 @@ public class FetchStudentRecords {
             }
             if (count <= 0) {
                 logger.warn("No Data with such ID");
+                return false;
+            }else {
+                return true;
             }
-            preStatement.close();
-        } catch (Exception e) {
-            logger.error("Error at selectRandom := " + e);
+        } catch (SQLException | NullPointerException e) {
+            logger.error("Error at selectRandom := " , e);
+        }finally {
+            try {
+                if(preStatement != null) {
+                    preStatement.close();
+                }
+            } catch (SQLException e) {
+                logger.error("Error at selectRandom while closing prepareStatement : ", e);
+            }
         }
+        return false;
     }
-    private void select(Connection connection, Logger logger, StudentGetterSetter student){
-
-    }
-
     private void selectAll(Connection connection, Logger logger) {
         Statement stmt = null;
         try {
@@ -75,7 +81,7 @@ public class FetchStudentRecords {
                         ("address") + ", Date of Birth := " + rSet.getString("dob") + "\nEnglish Marks:= " +
                         rSet.getFloat("english") + ", Hindi Marks:= " + rSet.getFloat("hindi") + ", Maths Marks:= " +
                         rSet.getFloat("maths") + ", Science Marks:= " + rSet.getFloat("science") + ", Social Marks:=" +
-                        "" + rSet.getFloat("social") + ", Percentage Marks:= " + rSet.getFloat("percentage"));
+                        "" + rSet.getFloat("social") + ", Percentage Marks:= " + rSet.getFloat("percentage")+"\n");
                 count++;
             }
             if (count <= 0) {
@@ -83,13 +89,15 @@ public class FetchStudentRecords {
             }
 
         } catch (Exception e) {
-            logger.error("Error at selectAll := " + e);
+            logger.error("Error at selectAll := " , e);
         }finally {
             try {
-                stmt.close();
-                rSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if(stmt != null && rSet != null) {
+                    stmt.close();
+                    rSet.close();
+                }
+            } catch (SQLException | NullPointerException e ) {
+                logger.error("Error at selectAll while closing statement and resultSet := " , e);
             }
         }
     }
