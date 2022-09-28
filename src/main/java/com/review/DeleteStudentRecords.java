@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class DeleteStudentRecords {
 
     public void delete(Connection connection, StudentGetterSetter student, Logger logger, Scanner sc) {
-        ResultSet rSet = null;
+        ResultSet resultSet = null;
         PreparedStatement preStatement = null;
         try {
             logger.info("Enter Roll-no of person you want to delete :=");
@@ -22,19 +22,19 @@ public class DeleteStudentRecords {
 
             preStatement = connection.prepareStatement(query);
             preStatement.setInt(1, student.getStudentId());
-            rSet = preStatement.executeQuery();
+            resultSet = preStatement.executeQuery();
             int count = 0;
 
-            while (rSet.next()) {
+            while (resultSet.next()) {
                 logger.info("Data you want to delete := ");
 
-                logger.warn("Name := " + rSet.getString("studentName") + " " + rSet.getString("lastName")
-                        + " \nFather's Name := " + rSet.getString("FatherName") + ", Mother's Name := " + rSet.getString
-                        ("motherName") + ", Address := " + rSet.getString("address") + ", Date of Birth := " + rSet
-                        .getString("dob") + "\nEnglish Marks:= " + rSet.getFloat("english") + ", Hindi Marks:= " +
-                        rSet.getFloat("hindi") + ", Maths Marks:= " + rSet.getFloat("maths") + ", Science Marks:= " +
-                        rSet.getFloat("science") + ", Social Marks:= " + rSet.getFloat("social") + ", Percentage  " +
-                        "Marks:= " + rSet.getFloat("percentage"));
+                logger.warn("Name := " + resultSet.getString("studentName") + " " + resultSet.getString("lastName")
+                        + " \nFather's Name := " + resultSet.getString("FatherName") + ", Mother's Name := " + resultSet.getString
+                        ("motherName") + ", Address := " + resultSet.getString("address") + ", Date of Birth := " + resultSet
+                        .getString("dob") + "\nEnglish Marks:= " + resultSet.getFloat("english") + ", Hindi Marks:= " +
+                        resultSet.getFloat("hindi") + ", Maths Marks:= " + resultSet.getFloat("maths") + ", Science Marks:= " +
+                        resultSet.getFloat("science") + ", Social Marks:= " + resultSet.getFloat("social") + ", Percentage  " +
+                        "Marks:= " + resultSet.getFloat("percentage"));
                 count++;
             }
             if (count <= 0) {
@@ -52,15 +52,15 @@ public class DeleteStudentRecords {
             }
 
         } catch (SQLException | InputMismatchException | IllegalArgumentException e) {
-            logger.error("Error at delete :=" + e);
+            logger.error("Error at delete :=" , e);
         } finally {
             try {
-                if(rSet != null && preStatement != null) {
-                    rSet.close();
+                if(resultSet != null && preStatement != null) {
+                    resultSet.close();
                     preStatement.close();
                 }
             } catch (SQLException e) {
-                logger.error("Error at delete while closing resultset and preparestatement ", e);
+                logger.error("Error at delete while closing resultSet and prepareStatement ", e);
             }
         }
     }
@@ -90,12 +90,14 @@ public class DeleteStudentRecords {
                 return false;
             }
         } catch (SQLException | NullPointerException e) {
-            logger.error("Error in deleteStudentRecord :=" + e);
+            logger.error("Error in deleteStudentRecord :=" , e);
         } finally {
             try {
-                statement.close();
-                statement1.close();
-                statement2.close();
+                if(statement != null && statement1 != null && statement2 != null) {
+                    statement.close();
+                    statement1.close();
+                    statement2.close();
+                }
             }catch (SQLException e){
                 logger.error("Error at closing prepareStatement:, e");
             }

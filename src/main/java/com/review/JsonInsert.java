@@ -91,7 +91,7 @@ public class JsonInsert {
                 }
             }
         } catch (SQLException e) {
-            logger.error("Error at readData := " + e);
+            logger.error("Error at readData := " , e);
         } finally {
             if (preparedStatement != null && preparedStatement1 != null && preparedStatement2 != null){
                try {

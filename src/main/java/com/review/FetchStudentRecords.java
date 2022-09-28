@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import java.sql.*;
 import java.util.Scanner;
 
-
 public class FetchStudentRecords {
     ResultSet rSet;
     int count = 0;
@@ -26,17 +25,16 @@ public class FetchStudentRecords {
 
     public boolean selectRandom(Connection connection, Logger logger, StudentGetterSetter student) {
         PreparedStatement preStatement = null;
-        String selectQuery = " select student.studentName, student.lastName, " +
-                " studentPersonalDetails.fatherName, studentPersonalDetails.motherName, studentPersonalDetails.address, "
-                + "studentPersonalDetails.dob, " + " studentMarks.english, studentMarks.hindi, studentMarks.maths, studentMarks.science, " +
-                "studentMarks.social, studentMarks.percentage " + " from student JOIN studentMarks on student.id = studentMarks.studentId " +
-                "JOIN studentPersonalDetails on studentPersonalDetails.studentId = student.id " + " where student.id = ? ";
+        String selectQuery = "select student.studentName, student.lastName, studentPersonalDetails.fatherName, studentPersonalDetails.motherName, " +
+                "studentPersonalDetails.address,studentPersonalDetails.dob, studentMarks.english, studentMarks.hindi, studentMarks.maths, studentMarks.science, " +
+                "studentMarks.social, studentMarks.percentage from student JOIN studentMarks on student.id = studentMarks.studentId JOIN studentPersonalDetails on " +
+                "studentPersonalDetails.studentId = student.id where student.id = ?";
         try {
             preStatement = connection.prepareStatement(selectQuery);
             preStatement.setInt(1, student.getStudentId());
             rSet = preStatement.executeQuery();
             while (rSet.next()) {
-                logger.info("Name := " + rSet.getString("studentName") + " " + rSet.getString("lastName") + " " +
+                logger.info("Name := " + rSet.getString("studentName") + " " + rSet.getString("lastName") +
                         "\nFather's Name := " + rSet.getString("FatherName") + ", Mother's Name := " + rSet.getString
                         ("motherName") + ", Address := " + rSet.getString("address") + ", Date of Birth := " +
                         rSet.getString("dob") + "\nEnglish Marks:= " + rSet.getFloat("english") + ", Hindi Marks:= "
@@ -71,13 +69,14 @@ public class FetchStudentRecords {
             String query = " select student.id, student.studentName, student.lastName, " + " studentPersonalDetails.fatherName, " +
                     "studentPersonalDetails.motherName, studentPersonalDetails.address, studentPersonalDetails.dob, " +" studentMarks" +
                     ".english, studentMarks.hindi, studentMarks.maths, studentMarks.science, studentMarks.social, studentMarks.percentage "
-                    + " from student join studentMarks on student.id = studentMarks.studentId join studentPersonalDetails on " +
+                    +" from student join studentMarks on student.id = studentMarks.studentId join studentPersonalDetails on " +
                     "studentPersonalDetails.studentId = student.id ";
             rSet = stmt.executeQuery(query);
+
             while (rSet.next()) {
                 logger.info("Student-ID := " + rSet.getInt("id") + ", Name := " + rSet.getString("studentName") + " "
-                        + rSet.getString("lastName") + " \nFather's Name := " + rSet.getString("FatherName") + ", " +
-                        "Mother's Name := " + rSet.getString("motherName") + ", Address := " + rSet.getString
+                        + rSet.getString("lastName") + " \nFather's Name := " + rSet.getString("FatherName") +
+                        ", Mother's Name := " + rSet.getString("motherName") + ", Address := " + rSet.getString
                         ("address") + ", Date of Birth := " + rSet.getString("dob") + "\nEnglish Marks:= " +
                         rSet.getFloat("english") + ", Hindi Marks:= " + rSet.getFloat("hindi") + ", Maths Marks:= " +
                         rSet.getFloat("maths") + ", Science Marks:= " + rSet.getFloat("science") + ", Social Marks:=" +
@@ -87,7 +86,6 @@ public class FetchStudentRecords {
             if (count <= 0) {
                 logger.warn("No Data Found!!");
             }
-
         } catch (Exception e) {
             logger.error("Error at selectAll := " , e);
         }finally {

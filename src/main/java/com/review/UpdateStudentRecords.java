@@ -40,7 +40,7 @@ public class UpdateStudentRecords {
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 43 of Update :- " + e);
+                            logger.error("Error on line 43 of Update :- " , e);
                         }
                     }
                     case 2 -> {
@@ -58,7 +58,7 @@ public class UpdateStudentRecords {
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 61 of update:- " + e);
+                            logger.error("Error on line 61 of update:- " , e);
                         }
                     }
                     default -> logger.info("Wrong Choice");
@@ -84,7 +84,7 @@ public class UpdateStudentRecords {
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 91 in update :- " + e);
+                            logger.error("Error on line 91 in update :- " , e);
                         }
                     }
                     case 2 -> {
@@ -102,7 +102,7 @@ public class UpdateStudentRecords {
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 110 in update:- " + e);
+                            logger.error("Error on line 110 in update:- " , e);
                         }
                     }
                     case 3 -> {
@@ -120,7 +120,7 @@ public class UpdateStudentRecords {
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 129 in update:- " + e);
+                            logger.error("Error on line 129 in update:- " , e);
                         }
                     }
                     case 4 -> {
@@ -138,7 +138,7 @@ public class UpdateStudentRecords {
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 148 in update:- " + e);
+                            logger.error("Error on line 148 in update:- " , e);
                         }
                     }
                     default -> logger.info("Wrong Choice");
@@ -165,7 +165,7 @@ public class UpdateStudentRecords {
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 168 in update:- " + e);
+                            logger.error("Error on line 168 in update:- " , e);
                         }
                     }
                     case 2 -> {
@@ -184,7 +184,7 @@ public class UpdateStudentRecords {
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 187 in update:- " + e);
+                            logger.error("Error on line 187 in update:- " , e);
                         }
                     }
                     case 3 -> {
@@ -203,7 +203,7 @@ public class UpdateStudentRecords {
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 206 in update:- " + e);
+                            logger.error("Error on line 206 in update:- " , e);
                         }
                     }
                     case 4 -> {
@@ -222,7 +222,7 @@ public class UpdateStudentRecords {
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 225 in update:- " + e);
+                            logger.error("Error on line 225 in update:- " , e);
                         }
                     }
                     case 5 -> {
@@ -241,7 +241,7 @@ public class UpdateStudentRecords {
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 244 in update:- " + e);
+                            logger.error("Error on line 244 in update:- " , e);
                         }
                     }
                     default -> logger.info("Wrong Choice");
@@ -299,7 +299,7 @@ public class UpdateStudentRecords {
                 return false;
             }
         } catch (SQLException e) {
-            logger.error("Error at updateLName := " + e);
+            logger.error("Error at updateLName := " , e);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -327,7 +327,7 @@ public class UpdateStudentRecords {
                 return false;
             }
         } catch (SQLException e) {
-            logger.error("Error at updateFName := " + e);
+            logger.error("Error at updateFName := " , e);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -605,10 +605,12 @@ public class UpdateStudentRecords {
     }
 
     public boolean callUpdateAll(Connection connection, Logger logger, StudentGetterSetter student) {
-        if (updateName(connection, logger, student) && updateLName(connection, logger, student) && updateFName(connection, logger, student) &&
-                updateMName(connection, logger, student) && updateAddress(connection, logger, student) && updateDob(connection, logger, student)
-                && updateEnglish(connection, logger, student) && updateHindi(connection, logger, student) && updateMaths(connection, logger, student)
-                && updateScience(connection, logger, student) && updateSocial(connection, logger, student) && updatePercentage(connection, logger, student)) {
+        if (updateName(connection, logger, student) && updateLName(connection, logger, student) &&
+                updateFName(connection, logger, student) && updateMName(connection, logger, student) &&
+                updateAddress(connection, logger, student) && updateDob(connection, logger, student) &&
+                updateEnglish(connection, logger, student) && updateHindi(connection, logger, student)
+                && updateMaths(connection, logger, student) && updateScience(connection, logger, student) &&
+                updateSocial(connection, logger, student) && updatePercentage(connection, logger, student)) {
             logger.info("Updated All!!");
             return true;
         } else {
@@ -627,8 +629,5 @@ public class UpdateStudentRecords {
         } catch (SQLException | NullPointerException e) {
             logger.error("Error at tearDown := ", e);
         }
-
     }
-
-
 }

@@ -86,7 +86,7 @@ public class InsertInStudentRecords {
             float total = student.getEnglish() + student.getHindi() + student.getMaths() + student.getScience() + student.getSocial();
             student.setPercentage((total * 100) / 500);
         } catch (InputMismatchException | NullPointerException e) {
-            logger.error("Error at insert := " + e);
+            logger.error("Error at insert := " , e);
         }
         insertInStudent(connection, logger, student);
     }
@@ -133,7 +133,7 @@ public class InsertInStudentRecords {
                 return false;
             }
         } catch (SQLException | NullPointerException e) {
-            logger.error("Error at insertInStudent := " + e);
+            logger.error("Error at insertInStudent := " , e);
         } finally {
             try {
                 if(statement != null && statement1 != null && statement2 != null)

@@ -33,7 +33,7 @@ public class TestMainCrud {
             connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
             statement = connection.createStatement();
         } catch (Exception e) {
-            logger.error("Error at setUpH2Connection := " + e);
+            logger.error("Error at setUpH2Connection := " , e);
         }
     }
     @Test
@@ -55,10 +55,10 @@ public class TestMainCrud {
         student.setPercentage((total * 100) / 500);
 
         boolean in = insert.insertInStudent(connection, logger, student);
-        System.out.println(in);
+        logger.info(String.valueOf(in));
         boolean fe = fetch.selectRandom(connection, logger, student);
-        System.out.println(fe);
-            softAssert.assertEquals(fe, in);
+        logger.info(String.valueOf(fe));
+            softAssert.assertEquals(fe, in,"Test failed on Insert");
             softAssert.assertAll();
     }
 
@@ -81,9 +81,9 @@ public class TestMainCrud {
         student.setPercentage((total * 100) / 500);
 
         boolean name = update.callUpdateAll(connection, logger, student);
-        System.out.println(name);
+        logger.info(String.valueOf(name));
         boolean select = fetch.selectRandom(connection,logger,student);
-        System.out.println(select);
+        logger.info(String.valueOf(select));
         softAssert.assertEquals(select, name, "Test on Update-Name failed");
         softAssert.assertAll();
     }
@@ -93,7 +93,7 @@ public class TestMainCrud {
         student.setStudentId(4);
         boolean result = delete.deleteStudentRecord(connection, logger, student);
         softAssert.assertTrue(result, "Delete Test Failed");
-        System.out.println(result);
+        logger.info(String.valueOf(result));
         softAssert.assertAll();
     }
     @AfterClass
@@ -102,7 +102,7 @@ public class TestMainCrud {
             try {
                 connection.close();
             } catch (Exception e) {
-                logger.error("Error at tearDown test := " + e);
+                logger.error("Error at tearDown test := " , e);
             }
         }
     }

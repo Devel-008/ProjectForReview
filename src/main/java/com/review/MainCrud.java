@@ -79,5 +79,8 @@ public class MainCrud {
                 logger.error("Error at connection closing", e);
             }
         }
+        if(sc != null){
+            sc.close();
+        }
     }
 }
