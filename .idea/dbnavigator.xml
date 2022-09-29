@@ -45,7 +45,7 @@
     <retain-sticky-names value="false" />
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
-    <mapping file-url="file://$PROJECT_DIR$/src/main/java/com/review/script.sql" connection-id="ac0ab3d4-4aa9-45ff-9b43-91620326b235" session-id="MAIN" current-schema="PUBLIC" />
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/script.sql" connection-id="ac0ab3d4-4aa9-45ff-9b43-91620326b235" session-id="MAIN" current-schema="PUBLIC" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />
