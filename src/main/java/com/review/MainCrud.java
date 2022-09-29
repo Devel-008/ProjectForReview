@@ -39,7 +39,6 @@ public class MainCrud {
             }
             StudentDao dao = new StudentDao();
             StudentGetterSetter student = new StudentGetterSetter();
-
             int choice;
             while (true) {
                 logger.info("""

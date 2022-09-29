@@ -470,7 +470,7 @@ public class StudentDao implements InterfaceMainCrud{
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 43 of Update :- " , e);
+                            logger.error("Error on line 473 of studentDao :- " , e);
                         }
                     }
                     case 2 -> {
@@ -488,7 +488,7 @@ public class StudentDao implements InterfaceMainCrud{
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 61 of update:- " , e);
+                            logger.error("Error on line 491 of studentDao:- " , e);
                         }
                     }
                     default -> logger.info("Wrong Choice");
@@ -514,7 +514,7 @@ public class StudentDao implements InterfaceMainCrud{
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 91 in update :- " , e);
+                            logger.error("Error on line 517 in studentDao :- " , e);
                         }
                     }
                     case 2 -> {
@@ -532,7 +532,7 @@ public class StudentDao implements InterfaceMainCrud{
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 110 in update:- " , e);
+                            logger.error("Error on line 535 in studentDao:- " , e);
                         }
                     }
                     case 3 -> {
@@ -550,7 +550,7 @@ public class StudentDao implements InterfaceMainCrud{
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 129 in update:- " , e);
+                            logger.error("Error on line 553 in studentDao:- " , e);
                         }
                     }
                     case 4 -> {
@@ -568,7 +568,7 @@ public class StudentDao implements InterfaceMainCrud{
                                 }
                             }
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 148 in update:- " , e);
+                            logger.error("Error on line 571 in studentDao:- " , e);
                         }
                     }
                     default -> logger.info("Wrong Choice");
@@ -595,7 +595,7 @@ public class StudentDao implements InterfaceMainCrud{
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 168 in update:- " , e);
+                            logger.error("Error on line 598 in studentDao:- " , e);
                         }
                     }
                     case 2 -> {
@@ -614,7 +614,7 @@ public class StudentDao implements InterfaceMainCrud{
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 187 in update:- " , e);
+                            logger.error("Error on line 617 in studentDao:- " , e);
                         }
                     }
                     case 3 -> {
@@ -633,7 +633,7 @@ public class StudentDao implements InterfaceMainCrud{
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 206 in update:- " , e);
+                            logger.error("Error on line 636 in studentDao:- " , e);
                         }
                     }
                     case 4 -> {
@@ -652,7 +652,7 @@ public class StudentDao implements InterfaceMainCrud{
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 225 in update:- " , e);
+                            logger.error("Error on line 655 in studentDao:- " , e);
                         }
                     }
                     case 5 -> {
@@ -671,7 +671,7 @@ public class StudentDao implements InterfaceMainCrud{
                             }
                             updatePercentage(connection, logger, student);
                         } catch (SQLException | InputMismatchException | NullPointerException e) {
-                            logger.error("Error on line 244 in update:- " , e);
+                            logger.error("Error on line 674 in studentDao:- " , e);
                         }
                     }
                     default -> logger.info("Wrong Choice");
@@ -680,7 +680,7 @@ public class StudentDao implements InterfaceMainCrud{
                 logger.warn("Wrong Choice!!");
             }
         } catch (InputMismatchException | NullPointerException e) {
-            logger.error("Error at selectRecord line 253", e);
+            logger.error("Error at studentDao line 683", e);
         } finally {
             tearDown(connection, logger);
         }
