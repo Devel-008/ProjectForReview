@@ -1,0 +1,244 @@
+package com.review;
+
+import org.slf4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class StudentDao implements InterfaceMainCrud{
+    @Override
+    public void select(Connection connection, Logger logger, StudentGetterSetter student, Scanner sc) {
+
+    }
+
+    @Override
+    public boolean selectRandom(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public void selectAll(Connection connection, Logger logger) {
+
+    }
+
+    @Override
+    public void readData(Scanner sc, Connection connect, Logger logger, StudentGetterSetter studentCheck) {
+
+    }
+
+    @Override
+    public void insert(Connection connection, Scanner sc, StudentGetterSetter student, Logger logger) {
+        try {
+            //input student-id
+            logger.info("Enter Student-Id:=");
+            student.setStudentId(sc.nextInt());
+            //input-studentName
+            logger.info("Enter Student-Name:= (Example: Pratibha)");
+            student.setStudentName(sc.next());
+            if (!student.getStudentName().matches("[A-Za-z]*")) {
+                logger.warn("Incorrect format");
+            }
+            //input student LastName
+            logger.info("Enter Student-Last Name:- (Example: Soni");
+            student.setStudentLastName(sc.next());
+            if (!student.getStudentLastName().matches("[A-Za-z]*")) {
+                logger.warn("Incorrect format");
+            }
+            //input student-FatherName
+            logger.info("Enter Student's Father-Name:= (Example: Kishan)");
+            student.setFatherName(sc.next());
+            if (!student.getFatherName().matches("[A-Za-z]*")) {
+                logger.warn("Incorrect format");
+            }
+            //input student motherName
+            logger.info("Enter Student's Mother-Name:= (Example: Sharmila)");
+            student.setMotherName(sc.next());
+            if (!student.getMotherName().matches("[A-Za-z]*")) {
+                logger.warn("Incorrect format");
+            }
+            //input student Address
+            logger.info("Enter Student's Address:= (Example: Bikaner)");
+            student.setAddress(sc.next());
+            if (!student.getAddress().matches("[A-Za-z][A-Za-z0-9]*")) {
+                logger.warn("Incorrect format");
+            }
+            //input student date of birth
+            logger.info("Enter Student's DOB yyyy-mm-dd:= (Example: 2000-10-10 )");
+            student.setDob(sc.next());
+            if (!student.getDob().matches("[1-2][0-9][0-9][0-9][-][0-1][0-9][-][0-3][0-9]")) {
+                logger.warn("Date has incorrect format");
+            }
+            //input english marks
+            logger.info("Enter English-Marks out of 100:=");
+            student.setEnglish(sc.nextFloat());
+            if (student.getEnglish() > 100) {
+                logger.warn("Marks entered must be more than 100");
+            }
+            //input hindi marks
+            logger.info("Enter Hindi-Marks out of 100:=");
+            student.setHindi(sc.nextFloat());
+            if (student.getHindi() > 100) {
+                logger.warn("Marks entered must be more than 100");
+            }
+            //input maths marks
+            logger.info("Enter Maths-Marks out of 100:=");
+            student.setMaths(sc.nextFloat());
+            if (student.getMaths() > 100) {
+                logger.warn("Marks entered must be more than 100");
+            }
+            //input science marks
+            logger.info("Enter Science-Marks out of 100:=");
+            student.setScience(sc.nextFloat());
+            if (student.getScience() > 100) {
+                logger.warn("Marks entered must be more than 100");
+            }
+            //input social marks
+            logger.info("Enter Social-Marks out of 100:=");
+            student.setSocial(sc.nextFloat());
+            if (student.getSocial() > 100) {
+                logger.warn("Marks entered must be more than 100");
+            }
+            //percentage
+            float total = student.getEnglish() + student.getHindi() + student.getMaths() + student.getScience() + student.getSocial();
+            student.setPercentage((total * 100) / 500);
+        } catch (InputMismatchException | NullPointerException e) {
+            logger.error("Error at insert := " , e);
+        }
+        insertInStudent(connection, logger, student);
+    }
+
+
+    @Override
+    public boolean insertInStudent(Connection connection, Logger logger, StudentGetterSetter student) {
+        String insertStudent = "insert into student (id, studentName,lastName) values(?, ?, ?)";
+        String insertStudentMarks = "insert into studentMarks(studentId, english, hindi, maths, science, social, percentage ) values(?, ?, ?, ?, ?, ?, ?)";
+        String insertStudentDetails = "insert into studentPersonalDetails(studentId, fatherName, motherName, address, dob) values(?, ?, ?, ?, ?)";
+        int i = 0;
+        PreparedStatement statement = null;
+        PreparedStatement statement1 = null;
+        PreparedStatement statement2 = null;
+        try {
+            statement = connection.prepareStatement(insertStudent);
+            statement1 = connection.prepareStatement(insertStudentDetails);
+            statement2 = connection.prepareStatement(insertStudentMarks);
+            statement.setInt(1, student.getStudentId());
+            statement.setString(2, student.getStudentName());
+            statement.setString(3, student.getStudentLastName());
+            statement1.setInt(1, student.getStudentId());
+            statement1.setString(2, student.getFatherName());
+            statement1.setString(3, student.getMotherName());
+            statement1.setString(4, student.getAddress());
+            statement1.setString(5, student.getDob());
+            statement2.setInt(1, student.getStudentId());
+            statement2.setFloat(2, student.getEnglish());
+            statement2.setFloat(3, student.getHindi());
+            statement2.setFloat(4, student.getMaths());
+            statement2.setFloat(5, student.getScience());
+            statement2.setFloat(6, student.getSocial());
+            statement2.setFloat(7, student.getPercentage());
+
+            statement.executeUpdate();
+            statement1.executeUpdate();
+            statement2.executeUpdate();
+            i += 1;
+
+            if (i > 0) {
+                logger.info("Data Inserted!!");
+                return true;
+            } else {
+                logger.warn("Data Not Inserted");
+                return false;
+            }
+        } catch (SQLException | NullPointerException e) {
+            logger.error("Error at insertInStudent := " , e);
+        } finally {
+            try {
+                if(statement != null && statement1 != null && statement2 != null)
+                    statement.close();
+                statement1.close();
+                statement2.close();
+            } catch (SQLException e) {
+                logger.error("Error at closing statement at insertInStudent", e);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteStudentRecord(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public void delete(Connection connection, StudentGetterSetter student, Logger logger, Scanner sc) {
+
+    }
+
+    @Override
+    public void updateRecords(Scanner sc, Logger logger, Connection connection, StudentGetterSetter student) {
+
+    }
+
+    @Override
+    public boolean updateName(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateLName(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateFName(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateMName(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateAddress(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateDob(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateEnglish(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateHindi(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateMaths(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateScience(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updateSocial(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+
+    @Override
+    public boolean updatePercentage(Connection connection, Logger logger, StudentGetterSetter student) {
+        return false;
+    }
+}

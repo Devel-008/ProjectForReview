@@ -21,10 +21,7 @@ public class TestMainCrud {
     PreparedStatement preparedStatement;
     SoftAssert softAssert = new SoftAssert();
     String query;
-    InsertInStudentRecords insert = new InsertInStudentRecords();
-    DeleteStudentRecords delete = new DeleteStudentRecords();
-    UpdateStudentRecords update = new UpdateStudentRecords();
-    FetchStudentRecords fetch = new FetchStudentRecords();
+    StudentDao dao = new StudentDao();
 
     @BeforeClass
     public void setUpH2Connection() {
@@ -36,7 +33,7 @@ public class TestMainCrud {
             logger.error("Error at setUpH2Connection := " , e);
         }
     }
-    @Test
+    @Test(priority = 1)
     public void testOnInsert() {
         logger.info("Test on Insert started!!");
         student.setStudentId(4);
@@ -54,15 +51,15 @@ public class TestMainCrud {
         float total = student.getEnglish() + student.getHindi() + student.getMaths() + student.getScience() + student.getSocial();
         student.setPercentage((total * 100) / 500);
 
-        boolean in = insert.insertInStudent(connection, logger, student);
+        boolean in = dao.insertInStudent(connection, logger, student);
         logger.info(String.valueOf(in));
-        boolean fe = fetch.selectRandom(connection, logger, student);
+        boolean fe = dao.selectRandom(connection, logger, student);
         logger.info(String.valueOf(fe));
             softAssert.assertEquals(fe, in,"Test failed on Insert");
             softAssert.assertAll();
     }
 
-    @Test
+    @Test(priority = 2)
     public void testOnUpdate() {
         logger.info("Test on Update started!!");
         student.setStudentId(2);
@@ -80,18 +77,18 @@ public class TestMainCrud {
         float total = student.getEnglish() + student.getHindi() + student.getMaths() + student.getScience() + student.getSocial();
         student.setPercentage((total * 100) / 500);
 
-        boolean name = update.callUpdateAll(connection, logger, student);
+        boolean name = dao.callUpdateAll(connection, logger, student);
         logger.info(String.valueOf(name));
-        boolean select = fetch.selectRandom(connection,logger,student);
+        boolean select = dao.selectRandom(connection,logger,student);
         logger.info(String.valueOf(select));
         softAssert.assertEquals(select, name, "Test on Update-Name failed");
         softAssert.assertAll();
     }
-    @Test
+    @Test(priority = 3)
     public void testOnDelete() {
         logger.info("Test on Delete started!!");
         student.setStudentId(4);
-        boolean result = delete.deleteStudentRecord(connection, logger, student);
+        boolean result = dao.deleteStudentRecord(connection, logger, student);
         softAssert.assertTrue(result, "Delete Test Failed");
         logger.info(String.valueOf(result));
         softAssert.assertAll();
