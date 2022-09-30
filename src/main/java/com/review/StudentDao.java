@@ -350,33 +350,6 @@ public class StudentDao implements InterfaceMainCrud{
         try {
             logger.info("Enter Roll-no of person you want to delete :=");
             student.setStudentId(sc.nextInt());
-
-            String query = " select student.studentName, student.lastName, " + " studentPersonalDetails.fatherName, " +
-                    "studentPersonalDetails.motherName, studentPersonalDetails.address, studentPersonalDetails.dob, " +
-                    "studentMarks.english,studentMarks.hindi,studentMarks.maths,studentMarks.science,studentMarks.social,studentMarks" +
-                    ".percentage " + " from student join studentMarks on student.id = studentMarks.studentId join studentPersonalDetails on "
-                    + "studentPersonalDetails.studentId = student.id " + " where student.id = ? ";
-
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, student.getStudentId());
-            rs = preparedStatement.executeQuery();
-            int count = 0;
-
-            while (rs.next()) {
-                logger.info("Data you want to delete := ");
-
-                logger.warn("Name := " + rs.getString("studentName") + " " + rs.getString("lastName")
-                        + " \nFather's Name := " + rs.getString("FatherName") + ", Mother's Name := " + rs.getString
-                        ("motherName") + ", Address := " + rs.getString("address") + ", Date of Birth := " + rs
-                        .getString("dob") + "\nEnglish Marks:= " + rs.getFloat("english") + ", Hindi Marks:= " +
-                        rs.getFloat("hindi") + ", Maths Marks:= " + rs.getFloat("maths") + ", Science Marks:= " +
-                        rs.getFloat("science") + ", Social Marks:= " + rs.getFloat("social") + ", Percentage  " +
-                        "Marks:= " + rs.getFloat("percentage"));
-                count++;
-            }
-            if (count <= 0) {
-                logger.warn("No Data with such ID");
-            } else {
                 logger.warn("Do you really want to delete ? ");
                 logger.info("Then Press y to delete or press any other key to not to delete");
                 String check = sc.next();
@@ -386,9 +359,7 @@ public class StudentDao implements InterfaceMainCrud{
                 } else {
                     logger.warn("Data not Deleted");
                 }
-            }
-
-        } catch (SQLException | InputMismatchException | IllegalArgumentException e) {
+        } catch (InputMismatchException | IllegalArgumentException e) {
             logger.error("Error at delete :=" , e);
         } finally {
             try {
