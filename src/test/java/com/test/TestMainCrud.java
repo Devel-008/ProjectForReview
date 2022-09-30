@@ -12,13 +12,12 @@ import java.sql.*;
 
 
 public class TestMainCrud {
-
     StudentGetterSetter student = new StudentGetterSetter();
     Connection connection;
     Statement statement;
     Logger logger = LoggerFactory.getLogger(TestMainCrud.class);
-    ResultSet rs;
-    PreparedStatement preparedStatement;
+    //ResultSet rs;
+    //PreparedStatement preparedStatement;
     SoftAssert softAssert = new SoftAssert();
     String query;
     StudentDao dao = new StudentDao();
