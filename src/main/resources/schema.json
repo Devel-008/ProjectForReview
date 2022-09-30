@@ -12,58 +12,58 @@
         "Required" : "Yes"
       },
       "studentName": {
-        "description": "Name of the Student",
+        "description": "Enter the the StudentName",
         "type": "string",
         "Required" : "Yes"
       },
       "lastName": {
-        "description": "Name of the Student",
+        "description": "Enter LastName",
         "type": "string",
         "Required" : "Yes"
       },
       "fatherName": {
-        "description": "Name of the Student",
+        "description": "Enter the Father-Name",
         "type": "string",
         "Required" : "Yes"
       },
       "motherName": {
-        "description": "Name of the Student",
+        "description": "Enter the Mother-Name",
         "type": "string",
         "Required" : "Yes"
       },
       "address": {
-        "description": "Name of the Student",
+        "description": "Enter the Address",
         "type": "string",
         "Required" : "Yes"
       },
       "dob": {
         "type":"string",
         "format": "date",
-        "pattern": "^[1-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$",
+        "description": "Enter the Date of Birth in format of YYYY-MM-DD",
         "Required" : "Yes"
       },
       "english": {
-        "description": "Name of the Student",
+        "description": "Enter the English marks",
         "type": "number",
         "Required" : "Yes"
       },
       "hindi": {
-        "description": "Name of the Student",
+        "description": "Enter the Hindi marks",
         "type": "number",
         "Required" : "Yes"
       },
       "maths": {
-        "description": "Name of the Student",
+        "description": "Enter the Maths marks",
         "type": "number",
         "Required" : "Yes"
       },
       "science": {
-        "description": "Name of the Student",
+        "description": "Enter the Science marks",
         "type": "number",
         "Required" : "Yes"
       },
       "social": {
-        "description": "Name of the Student",
+        "description": "Enter the Social marks",
         "type": "number",
         "Required" : "Yes"
       }
