@@ -350,6 +350,26 @@ public class StudentDao implements InterfaceMainCrud{
         try {
             logger.info("Enter Roll-no of person you want to delete :=");
             student.setStudentId(sc.nextInt());
+
+            String query = " select student.studentName, student.lastName, " + " studentPersonalDetails.fatherName, " +
+                    "studentPersonalDetails.motherName, studentPersonalDetails.address, studentPersonalDetails.dob, " +
+                    "studentMarks.english,studentMarks.hindi,studentMarks.maths,studentMarks.science,studentMarks.social,studentMarks" +
+                    ".percentage " + " from student join studentMarks on student.id = studentMarks.studentId join studentPersonalDetails on "
+                    + "studentPersonalDetails.studentId = student.id " + " where student.id = ? ";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, student.getStudentId());
+            rs = preparedStatement.executeQuery();
+            int count = 0;
+
+            while (rs.next()) {
+                logger.info("Student's whose data you want delete want to delete := ");
+                logger.warn("His Name := " + rs.getString("studentName"));
+                count++;
+            }
+            if (count <= 0) {
+                logger.warn("No Data with such ID");
+            } else {
                 logger.warn("Do you really want to delete ? ");
                 logger.info("Then Press y to delete or press any other key to not to delete");
                 String check = sc.next();
@@ -359,7 +379,9 @@ public class StudentDao implements InterfaceMainCrud{
                 } else {
                     logger.warn("Data not Deleted");
                 }
-        } catch (InputMismatchException | IllegalArgumentException e) {
+            }
+
+        } catch (SQLException | InputMismatchException | IllegalArgumentException e) {
             logger.error("Error at delete :=" , e);
         } finally {
             try {
